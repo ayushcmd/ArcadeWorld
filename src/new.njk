@@ -1,0 +1,55 @@
+---
+pagination:
+    data: paginatedLists.newPages
+    size: 1
+    alias: p
+permalink: "{{ p.href }}"
+eleventyComputed:
+    robots: "{% if p.isFirst %}index, follow{% else %}noindex, follow{% endif %}"
+title: New Browser Games — Latest Additions
+description: The newest indie and AI browser games added to the ArcadeWorld directory. Fresh action, puzzle, arcade and strategy games, ordered by date added.
+---
+{# New aggregation page — ordered by addedDate (when ArcadeWorld added it).
+   Paged at site.gamesPerPage (24). First page index,follow; deeper pages noindex,follow. #}
+
+{% extends 'base.njk' %}
+
+{% block title_tag %}<title>New Browser Games — Latest Additions{% if p.totalPages > 1 %} — Page {{ p.page }}{% endif %} — ArcadeWorld</title>{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <nav class="text-sm text-white/60 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">New</span>
+    </nav>
+
+    <header class="mb-10">
+        <div class="flex items-center gap-3">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">New Arrivals</h1>
+            <span class="badge">{{ p.totalGames }}</span>
+        </div>
+        <p class="text-lg text-white/70 mt-4 max-w-3xl">
+            The most recent additions to the directory.
+        </p>
+        <p class="text-xs text-white/40 mt-2">
+            Ordered by the date ArcadeWorld added each game — not by the game's own release date.
+        </p>
+    </header>
+
+    {% if p.games.length %}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {% for game in p.games %}
+        {% include 'game-card.njk' %}
+        {% endfor %}
+    </div>
+    {% include 'pagination.njk' %}
+    {% else %}
+    <div class="panel-card p-12 text-center">
+        <p class="text-white/60">No games yet.</p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

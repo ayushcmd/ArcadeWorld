@@ -1,0 +1,28 @@
+{# game-card.njk — standard card. Expects `game` in scope. Links to /game/<slug>/.
+   Solid ink-2 surface + 1px hairline (no blur), category-accent left edge
+   that brightens on hover, sharper display-face title.
+   When a screenshot exists it fills the top; otherwise a category-tinted
+   panel with the game's initial — deliberate, not a missing-image gap. #}
+<a href="/game/{{ game.slug }}/" class="cat-{{ game.category }} group relative flex flex-col surface overflow-hidden transition-transform hover:-translate-y-0.5">
+    <span class="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--cat)] opacity-0 group-hover:opacity-100 transition-opacity z-10"></span>
+
+    {% if game.screenshots and game.screenshots.length %}
+    <div class="aspect-video bg-ink-3 overflow-hidden">
+        <img src="{{ game.screenshots[0] }}" alt="{{ game.name }} screenshot"
+             loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+    </div>
+    {% else %}
+    <div class="aspect-video bg-gradient-to-br from-[var(--cat)]/20 to-ink-3 flex items-center justify-center">
+        <span class="font-display text-6xl font-bold text-paper/15 select-none">{{ game.name | first | upper }}</span>
+    </div>
+    {% endif %}
+
+    <div class="flex flex-col gap-2 p-4 flex-1">
+        <h3 class="font-display font-semibold text-base md:text-lg leading-snug group-hover:text-bloom transition-colors">{{ game.name }}</h3>
+        {% if game.tagline %}
+        <p class="text-sm text-paper-60 line-clamp-2">{{ game.tagline }}</p>
+        {% endif %}
+        {% include 'ai-labels.njk' %}
+        <span class="mt-auto pt-2"><span class="cat-chip">{{ game.category }}</span></span>
+    </div>
+</a>

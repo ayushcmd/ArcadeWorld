@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" width="64" height="64">
+  <defs>
+    <radialGradient id="favSphere" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#242930"/>
+      <stop offset="70%" stop-color="#17191C"/>
+      <stop offset="100%" stop-color="#0E1012"/>
+    </radialGradient>
+    <linearGradient id="favLime" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4FF70"/>
+      <stop offset="100%" stop-color="#B7F34A"/>
+    </linearGradient>
+    <linearGradient id="favRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8E8E"/>
+      <stop offset="100%" stop-color="#FF6B6B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base Circular Planet Sphere -->
+  <circle cx="32" cy="32" r="28" fill="url(#favSphere)" stroke="#2F3642" stroke-width="2"/>
+
+  <!-- Latitude ring -->
+  <ellipse cx="32" cy="32" rx="26" ry="10" stroke="#363E4D" stroke-width="1.2" stroke-dasharray="2 2" fill="none"/>
+
+  <!-- D-Pad Motif -->
+  <rect x="23" y="16" width="8" height="24" rx="2.5" fill="url(#favLime)"/>
+  <rect x="15" y="24" width="24" height="8" rx="2.5" fill="url(#favLime)"/>
+  <circle cx="27" cy="28" r="2" fill="#17191C"/>
+
+  <!-- Action Buttons (A & B) -->
+  <circle cx="43" cy="34" r="4" fill="url(#favRed)"/>
+  <circle cx="49" cy="26" r="4" fill="url(#favRed)"/>
+
+  <!-- Dynamic Front Orbital Arc -->
+  <path d="M 6 36 C 14 51, 50 52, 60 38" stroke="url(#favLime)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+  <circle cx="56" cy="42" r="2" fill="#B7F34A"/>
+</svg>

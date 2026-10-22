@@ -1,0 +1,49 @@
+---
+permalink: /contact/
+title: Contact ArcadeWorld
+description: Get in touch with ArcadeWorld — suggest a game, report an issue, or reach the editors.
+---
+{% extends 'base.njk' %}
+
+{% block adsense %}{% endblock %}
+{# No AdSense on this page (issue #15). #}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <nav class="text-sm text-paper-60 mb-8" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-paper">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-paper">Contact</span>
+    </nav>
+
+    <h1 class="text-4xl font-extrabold tracking-tight mb-6">Contact</h1>
+
+    <div class="text-paper-70 leading-relaxed space-y-5 text-lg">
+        <p>
+            Found a great browser game we should list? Spot an error in a listing, a dead source link,
+            or a licence we got wrong? We want to hear about it.
+        </p>
+    </div>
+
+    <div class="surface rounded-xl p-6 mt-8 space-y-4 text-paper-70">
+        <div>
+            <h2 class="font-semibold text-paper"><a href="/submit/" class="link-inline">Submit a game</a></h2>
+            <p class="text-sm mt-1 text-paper-60">Include the game name, the author's official URL, and the licence if known. We only list games with a verifiable source.</p>
+        </div>
+        <div>
+            <h2 class="font-semibold text-paper">Report an issue</h2>
+            <p class="text-sm mt-1 text-paper-60">Inaccurate description, broken outbound link, or attribution error — tell us which game page and what is wrong.</p>
+        </div>
+        <div>
+            <h2 class="font-semibold text-paper">Author takedown</h2>
+            <p class="text-sm mt-1 text-paper-60">If you are the author of a listed game and want it removed, contact us and we will delist it promptly.</p>
+        </div>
+    </div>
+
+    <p class="text-paper-60 text-sm mt-8">
+        Reach the editors at: <a href="mailto:{{ site.contactEmail }}" class="text-[var(--color-primary)] hover:underline">{{ site.contactEmail }}</a>
+    </p>
+
+</div>
+{% endblock %}

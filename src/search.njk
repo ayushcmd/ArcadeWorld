@@ -1,0 +1,132 @@
+---
+permalink: /search/
+title: Search Games
+robots: noindex, follow
+---
+{# Search page — noindex (infinite query combinations must not be indexed).
+   Client-side filtering over a SLIM projection of the games data (name/tagline/
+   category/tags only — no about/howToPlay/sourceUrl inlined). Results are built
+   with safe DOM APIs (textContent), never string-concatenated into innerHTML,
+   because the name/tagline originate from imported upstream data. #}
+
+{% extends 'base.njk' %}
+{% set public_games = games | indexableGames %}
+
+{% block adsense %}{% endblock %}
+{# No AdSense on this page (issue #15). #}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+
+    <header class="mb-8 max-w-2xl">
+        <p class="eyebrow">{{ public_games | length | number }} detailed game pages</p>
+        <h1 class="display-h1 text-4xl md:text-6xl mt-3">Find a game</h1>
+        <p class="text-paper-70 mt-4 text-lg">Search by name, category or tag, then narrow the results by how AI is used.</p>
+        <p class="text-paper-60 mt-3">Looking for an older source record? <a href="/catalogue/archive/" class="link-inline">Browse the archive</a>.</p>
+    </header>
+
+    <form id="search-form" class="search-controls mb-8" role="search">
+        <label class="sr-only" for="search-q">Search games</label>
+        <input type="search" name="q" id="search-q" placeholder="Game name, category or tag…" autocomplete="off">
+        <fieldset class="search-filters">
+            <legend class="sr-only">Filter by AI use</legend>
+            <label><input type="radio" name="type" value="all" checked><span>All games</span></label>
+            <label><input type="radio" name="type" value="ai-gameplay"><span>AI in play</span></label>
+            <label><input type="radio" name="type" value="ai-assisted"><span>AI-assisted</span></label>
+        </fieldset>
+    </form>
+
+    <p id="search-summary" class="font-mono text-xs text-paper-45 mb-5" aria-live="polite"></p>
+
+    <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {# Results rendered client-side below; this is the no-JS fallback list #}
+        {% for game in public_games | limit(12) %}
+        <noscript>
+            <a href="/game/{{ game.slug }}/" class="surface p-4 block">
+                <h3 class="font-semibold">{{ game.name }}</h3>
+                <p class="text-sm text-white/60 mt-1">{{ game.tagline }}</p>
+            </a>
+        </noscript>
+        {% endfor %}
+    </div>
+
+    <div id="search-empty" class="hidden surface p-10 md:p-14 mt-4">
+        <p class="display-h2 text-2xl">Nothing found here.</p>
+        <p class="text-paper-60 mt-2">Try a broader word or switch back to all games.</p>
+    </div>
+
+</div>
+
+<script>
+(function () {
+    // Slim projection — only the matched fields (extend.md §5.4.2).
+    var games = {{ public_games | toSearchIndex | safe }};
+    var input = document.getElementById('search-q');
+    var results = document.getElementById('search-results');
+    var empty = document.getElementById('search-empty');
+
+    // Build a card with safe DOM APIs. name/tagline are imported upstream text,
+    // so they go through textContent (never innerHTML) — no injection surface.
+    function card(g) {
+        var a = document.createElement('a');
+        a.href = '/game/' + g.slug + '/';
+        a.className = 'surface p-5 flex flex-col gap-3 transition-transform hover:-translate-y-0.5';
+
+        var body = document.createElement('div');
+        var h3 = document.createElement('h3');
+        h3.className = 'font-semibold text-lg leading-tight';
+        h3.textContent = g.name;
+        body.appendChild(h3);
+
+        var p = document.createElement('p');
+        p.className = 'text-sm text-white/60 mt-1';
+        p.textContent = g.tagline || '';
+        body.appendChild(p);
+        a.appendChild(body);
+
+        if (Array.isArray(g.aiTypes) && g.aiTypes.length) {
+            var ai = document.createElement('span');
+            ai.className = 'ai-labels';
+            g.aiTypes.forEach(function (type) {
+                var label = document.createElement('span');
+                label.className = 'ai-label ai-label--' + (type === 'ai-gameplay' ? 'play' : 'made');
+                label.textContent = type === 'ai-gameplay' ? 'AI in play' : 'AI-assisted';
+                ai.appendChild(label);
+            });
+            a.appendChild(ai);
+        }
+
+        var badge = document.createElement('span');
+        badge.className = 'badge mt-auto';
+        badge.textContent = g.category;
+        a.appendChild(badge);
+        return a;
+    }
+
+    function render(q) {
+        q = (q || '').trim().toLowerCase();
+        var type = document.querySelector('input[name="type"]:checked').value;
+        var filtered = games.filter(function (g) {
+            var matchesText = !q || (g.name && g.name.toLowerCase().indexOf(q) > -1)
+                || (g.tagline && g.tagline.toLowerCase().indexOf(q) > -1)
+                || (g.category && g.category.toLowerCase().indexOf(q) > -1)
+                || (Array.isArray(g.tags) && g.tags.join(' ').toLowerCase().indexOf(q) > -1);
+            var matchesType = type === 'all' || (Array.isArray(g.aiTypes) && g.aiTypes.indexOf(type) > -1);
+            return matchesText && matchesType;
+        });
+        results.innerHTML = ''; // clear (incl. noscript fallback once JS runs)
+        filtered.slice(0, 48).forEach(function (g) { results.appendChild(card(g)); });
+        empty.classList.toggle('hidden', filtered.length > 0);
+        document.getElementById('search-summary').textContent = filtered.length + (filtered.length === 1 ? ' match' : ' matches') + (filtered.length > 48 ? ' · showing the first 48' : '');
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    input.value = params.get('q') || '';
+    render(input.value);
+    input.addEventListener('input', function () { render(input.value); });
+    document.querySelectorAll('input[name="type"]').forEach(function (control) {
+        control.addEventListener('change', function () { render(input.value); });
+    });
+})();
+</script>
+{% endblock %}

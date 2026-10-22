@@ -1,0 +1,57 @@
+# ArcadeWorld
+
+> A curated directory of free browser games. We introduce indie and AI browser games and link to each author's own site; Circle Club is a specific owner-authorized hosting exception. Every entry has a verifiable source (author, play URL, licence).
+
+ArcadeWorld catalogues browser games across six categories: Puzzle, Action, Arcade, Strategy, Racing & Sports, and Simulation. The catalogue is seeded from three source classes: open-source GitHub game collections, independent author sites, and js13kGames competition entries.
+
+## What this site is
+
+- A **game directory**: we discover, introduce, and link out. Circle Club, Pulse Lock and Echo Vault run directly on this site under explicit hosting exceptions; other games stay at their original sources.
+- Each game page has: a concise introduction (About), getting-started instructions, key features, source attribution (author, URL, licence), and an outbound "Play on [source]" link.
+- We do not fabricate play counts or ratings — removed per our design principles.
+
+## Key pages
+
+- [Home](/): category portal with editor's picks, browse-by-category, and latest additions
+- [AI games](/ai-games/): AI gameplay and AI-assisted creation, labelled from creator disclosures
+- [Submit a game](/submit/): prepare an email with the official game link
+- [Featured games](/featured/): hand-picked standout titles
+- [New games](/new/): most recent additions, ordered by date
+- [Browse by category](/category/arcade/): Puzzle, Action, Arcade, Strategy, Racing & Sports, Simulation
+- [Search](/search/): full-text search across the catalogue
+- [About](/about/): what ArcadeWorld is (and is not)
+- [Sitemap](/sitemap.xml): all indexable URLs
+
+## Circle Club
+
+- [Play Circle Club](https://arcadebloom.com/play/circle-club/): a free browser circle-drawing game, hosted on ArcadeWorld. Draw one loop around the center for a score out of 100; mouse, touch and keyboard controls are supported.
+- [Instructions and scoring](https://arcadebloom.com/play/circle-club/#how-to-play): static instructions, scoring factors, daily challenge rules, local records and sharing explanations.
+- [Game details and licence](https://arcadebloom.com/game/circle-club/): catalogue attribution; public reuse licence not declared.
+
+Free draw and a UTC-date-based target-size challenge are available without an account or download. The latest thirty scores stay in the current browser. Challenge URLs carry editable, unverified scores; there is no verified leaderboard. The canonical play URL has no score or date query parameters. Consult the visible game page for current facts.
+
+## More hosted challenges
+
+- [Pulse Lock](https://arcadebloom.com/play/pulse-lock/): twenty-round browser timing game. Capture the blue arc through narrowing windows and late shifting targets, earn precision points and chain bonuses, and finish with three lives. Daily UTC and fresh practice courses; optional sound, pause, local records and shareable seeded challenges.
+- [Echo Vault](https://arcadebloom.com/play/echo-vault/): twelve-chamber browser memory game. Repeat three-to-nine tile sequences forwards, backwards or through mirrored columns. Three lives, escalating playback speed, replay penalties and daily UTC courses make the late chambers demanding. Practice courses, local records and score-card downloads are also available.
+
+Both are free to play without an account. The game pages disclose AI-assisted creation, but no AI model runs during play. Scores in shared links are editable and unverified, not leaderboard rankings. The canonical URLs omit challenge parameters. Public reuse licences are not declared.
+
+## Categories
+
+- [Puzzle](/category/puzzle/): logic, numbers, patterns, spatial reasoning
+- [Action](/category/action/): shooters, fighters, reflex-driven combat
+- [Arcade](/category/arcade/): classic, retro, score-attack, js13k jam entries
+- [Strategy](/category/strategy/): tower defense, tactics, resource management
+- [Racing & Sports](/category/racing-sports/): speed and athletic competition
+- [Simulation](/category/simulation/): idle, management, sandbox, life-sim
+
+## How we curate
+
+Every entry must have a recorded, verifiable source. We link out with `rel="noopener nofollow"` and transparent attribution. If we cannot verify where a game came from, we do not list it. See our [architectural decisions](https://github.com/dgyy/ArcadeWorld-/tree/main/docs/adr) for the positioning and taxonomy decisions.
+
+## Seed sources
+
+1. Open-source GitHub game collections (MIT/GPL/etc.)
+2. Independent author sites (hextris.io, proxx.app, etc.)
+3. js13kGames competition entries (2012–2025, 2483 entries total)

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" width="100" height="100">
+  <defs>
+    <!-- Background charcoal gradient -->
+    <radialGradient id="worldSphere" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#242930"/>
+      <stop offset="70%" stop-color="#17191C"/>
+      <stop offset="100%" stop-color="#0E1012"/>
+    </radialGradient>
+
+    <!-- Lime glow -->
+    <linearGradient id="limeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4FF70"/>
+      <stop offset="100%" stop-color="#B7F34A"/>
+    </linearGradient>
+
+    <!-- Red glow -->
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8E8E"/>
+      <stop offset="100%" stop-color="#FF6B6B"/>
+    </linearGradient>
+
+    <!-- Orbit glow filter -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#B7F34A" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Base Circular Planet Sphere -->
+  <circle cx="50" cy="50" r="42" fill="url(#worldSphere)" stroke="#2F3642" stroke-width="2"/>
+
+  <!-- Holographic World Grid Lines (Longitude & Latitude) -->
+  <!-- Latitude line -->
+  <path d="M 12 50 A 38 14 0 0 0 88 50 A 38 14 0 0 0 12 50 Z" stroke="#363E4D" stroke-width="1.2" stroke-dasharray="3 3" fill="none"/>
+  <!-- Longitude meridian -->
+  <ellipse cx="50" cy="50" rx="18" ry="42" stroke="#363E4D" stroke-width="1.2" stroke-dasharray="3 3" fill="none"/>
+
+  <!-- Planetary Orbital Ring (Arcade Ring) - back half -->
+  <path d="M 10 42 C 16 28, 76 22, 92 36" stroke="#2A303A" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- Central Game Controller D-Pad Motif (Integrated into the World's Core) -->
+  <g filter="url(#softGlow)">
+    <!-- D-Pad Vertical Bar -->
+    <rect x="36" y="27" width="12" height="34" rx="3.5" fill="url(#limeGrad)"/>
+    <!-- D-Pad Horizontal Bar -->
+    <rect x="25" y="38" width="34" height="12" rx="3.5" fill="url(#limeGrad)"/>
+    <!-- D-Pad Center Core Accent -->
+    <circle cx="42" cy="44" r="3" fill="#17191C"/>
+    <!-- Directional arrow indicators on D-pad -->
+    <path d="M 42 30 L 39 34 L 45 34 Z" fill="#17191C" opacity="0.65"/>
+    <path d="M 42 58 L 39 54 L 45 54 Z" fill="#17191C" opacity="0.65"/>
+    <path d="M 28 44 L 32 41 L 32 47 Z" fill="#17191C" opacity="0.65"/>
+    <path d="M 56 44 L 52 41 L 52 47 Z" fill="#17191C" opacity="0.65"/>
+  </g>
+
+  <!-- Arcade Action Buttons (A & B) in Upper Right Quadrant -->
+  <!-- Button B (Lower) -->
+  <circle cx="65" cy="52" r="5.5" fill="url(#redGrad)"/>
+  <circle cx="65" cy="52" r="3" fill="#FFE5E5" opacity="0.4"/>
+  <!-- Button A (Upper) -->
+  <circle cx="73" cy="41" r="5.5" fill="url(#redGrad)"/>
+  <circle cx="73" cy="41" r="3" fill="#FFE5E5" opacity="0.4"/>
+
+  <!-- Front Dynamic Orbital Ring with Lime energy edge -->
+  <path d="M 8 54 C 18 76, 78 78, 94 56" stroke="url(#limeGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Orbit satellite particle -->
+  <circle cx="86" cy="62" r="2.5" fill="#B7F34A"/>
+</svg>

@@ -1,0 +1,39 @@
+{
+  "name": "arcadeworld",
+  "version": "2.0.0",
+  "description": "ArcadeWorld — outbound-link web game directory. Built with Eleventy.",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "catalogue:normalize": "node scripts/normalize-catalogue.js",
+    "candidates:github": "node scripts/fetch-github-games.js",
+    "candidates:js13k": "node scripts/stage-js13k-candidates.js",
+    "candidates:gitlab": "node scripts/fetch-gitlab-games.js",
+    "candidates:itch": "node scripts/fetch-itch-games.js",
+    "candidates:build": "node scripts/build-candidate-queue.js",
+    "candidates:validate": "node scripts/validate-candidates.js",
+    "candidates:review-batch": "node scripts/prepare-review-batch.js",
+    "candidates:review-evidence": "node scripts/hydrate-review-batch.js",
+    "candidates:publish": "node scripts/publish-reviewed-candidates.js",
+    "build:css": "tailwindcss -i src/styles/styles.css -o dist/css/styles.css --minify",
+    "fetch:screenshots": "node scripts/fetch-screenshots.js",
+    "build:catalogue-slugs": "node scripts/build-catalogue-slugs.js",
+    "build": "npm run validate:strict && npm run clean && npm run build:css && npm run build:catalogue-slugs && npm run fetch:screenshots && eleventy",
+    "serve": "npm run build:css && eleventy --serve",
+    "validate": "node scripts/validate-data.js",
+    "validate:strict": "node scripts/validate-data.js --strict",
+    "validate:registry": "node scripts/validate-review-registry.js",
+    "validate:evidence": "node scripts/validate-evidence.js",
+    "validate:collections": "node scripts/validate-collections.js",
+    "pretest": "npm run build",
+    "test": "playwright test",
+    "test:games": "playwright test tests/challenge-games.spec.js"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@playwright/test": "^1.61.1",
+    "http-server": "^14.1.1",
+    "rimraf": "^5.0.5",
+    "tailwindcss": "^3.4.19"
+  }
+}

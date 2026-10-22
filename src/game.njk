@@ -1,0 +1,225 @@
+---
+pagination:
+    data: games
+    size: 1
+    alias: game
+permalink: "/game/{{ game.slug }}/"
+eleventyComputed:
+    title: "{{ game.name }} — About, How to Play & Source"
+    description: "{{ game.tagline }}"
+    robots: "{{ 'index, follow' if (game.sourceKey | isIndexable) else 'noindex, follow' }}"
+---
+
+{% extends 'base.njk' %}
+
+{% set cat = site.categories | findCat(game.category) %}
+{% set public_games = games | indexableGames %}
+{% set related = (public_games | aiGames | reject('slug', game.slug) | limit(4)) if game.ai else (public_games | whereEq('category', game.category) | reject('slug', game.slug) | limit(4)) %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  {% if game | hostedPath %}"@id": "{{ site.url }}{{ game | hostedPath }}#game",{% endif %}
+  "name": {{ game.name | toJSON | safe }},
+  "description": {{ game.tagline | toJSON | safe }},
+  "genre": {{ cat.name | toJSON | safe }},
+  "url": "{{ site.url }}{% if game | hostedPath %}{{ game | hostedPath }}{% else %}/game/{{ game.slug }}/{% endif %}",
+  {% if game.releaseDate != 'unknown' %}
+  "datePublished": "{{ game.releaseDate }}",
+  {% endif %}
+  "applicationCategory": "Game",
+  "operatingSystem": "Web Browser",
+  "author": {
+    "@type": "Organization",
+    "name": {{ game.sourceName | toJSON | safe }},
+    "url": {{ game.sourceUrl | toJSON | safe }}
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" },
+    { "@type": "ListItem", "position": 2, "name": {{ cat.name | toJSON | safe }}, "item": "{{ site.url }}/category/{{ game.category }}/" },
+    { "@type": "ListItem", "position": 3, "name": {{ game.name | toJSON | safe }}, "item": "{{ site.url }}/game/{{ game.slug }}/" }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-28 lg:pb-8">
+
+    <nav class="text-sm text-paper-60 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-bloom">Home</a>
+        <span class="mx-2 text-paper-45">/</span>
+        <a href="/category/{{ game.category }}/" class="hover:text-bloom">{{ cat.name }}</a>
+        <span class="mx-2 text-paper-45">/</span>
+        <span class="text-paper">{{ game.name }}</span>
+    </nav>
+
+    {# =====================================================================
+       HEADER + HERO CTA
+       The Play button sits right under the title — the most valuable pixel on
+       a game page. Anyone who already knows the game can play immediately,
+       without scrolling past the description to find the link.
+       ===================================================================== #}
+    <header class="cat-{{ game.category }} mb-8">
+        <h1 class="display-h1 text-4xl md:text-5xl lg:text-6xl">{{ game.name }}</h1>
+        <p class="text-lg md:text-xl text-paper-70 mt-3 max-w-2xl">{{ game.tagline }}</p>
+        {% if game.ai %}
+        <div class="mt-5">{% include 'ai-labels.njk' %}</div>
+        {% endif %}
+        <div class="flex flex-wrap gap-2 mt-4">
+            <a href="/category/{{ game.category }}/" class="cat-chip">{{ cat.name }}</a>
+            {% for tag_slug in game.tags %}
+            {% set tag = tags | findTag(tag_slug) %}
+            {% if tag %}
+                {% if populatedTagSlugs.indexOf(tag.slug) > -1 %}
+                <a href="/tag/{{ tag.slug }}/" class="badge hover:border-[var(--hairline-strong)]">{{ tag.name }}</a>
+                {% else %}
+                <span class="badge opacity-60">{{ tag.name }}</span>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        {# HERO CTA — the primary action, visible above the fold.
+           "Play Game" is the loudest word; the source name is supporting
+           context beneath it, not the button label. #}
+        <div class="mt-7 flex flex-col sm:flex-row sm:items-center gap-4">
+            {% set cta_size = 'lg' %}
+            <div>{% include 'play-cta.njk' %}</div>
+            <p class="text-sm text-paper-60">
+                Browser game<br>
+                <span class="text-paper-45">{% if game | hostedPath %}Play here on ArcadeWorld{% else %}Opens at {{ game.sourceName }}{% endif %}</span>
+            </p>
+        </div>
+    </header>
+
+    {% if game.screenshots and game.screenshots.length %}
+    <section class="mb-8">
+        <div class="grid grid-cols-1 {% if game.screenshots.length > 1 %}sm:grid-cols-2{% endif %} gap-3">
+            {% for shot in game.screenshots %}
+            <div class="surface rounded-2xl overflow-hidden aspect-video">
+                <img src="{{ shot }}" alt="{{ game.name }} screenshot {{ loop.index }}" loading="lazy" class="w-full h-full object-cover">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">About {{ game.name }}</h2>
+        <div class="text-paper-70 leading-relaxed space-y-4">
+            {% for para in game.about | directoryText | paragraphs %}
+            <p>{{ para }}</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">How to Play</h2>
+        <div class="text-paper-70 leading-relaxed space-y-4">
+            {% for para in game.howToPlay | directoryText | paragraphs %}
+            <p>{{ para }}</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if game.keyFeatures and game.keyFeatures.length %}
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">Key Features</h2>
+        <ul class="space-y-2.5">
+            {% for feature in game.keyFeatures %}
+            <li class="flex items-start gap-2.5 text-paper-70">
+                <span class="text-bloom mt-1 shrink-0" aria-hidden="true">▸</span>
+                <span>{{ feature }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if game.ai %}
+    <section class="ai-disclosure mb-10" aria-labelledby="ai-use">
+        <header class="ai-disclosure__header">
+            <div><p class="eyebrow">Creator disclosure</p><h2 id="ai-use" class="display-h2 text-2xl mt-2">Where AI appears</h2></div>
+            {% include 'ai-labels.njk' %}
+        </header>
+        <div class="ai-disclosure__grid">
+            <div class="ai-disclosure__explanation">
+                <p>{{ game.ai.note }}</p>
+            </div>
+            <dl class="ai-disclosure__facts">
+                {% if game.ai.types.indexOf('ai-gameplay') > -1 %}<div><dt>During play</dt><dd>AI participates in the player experience.</dd></div>{% endif %}
+                {% if game.ai.types.indexOf('ai-assisted') > -1 %}<div><dt>During production</dt><dd>The creator reports using AI while making the game.</dd></div>{% endif %}
+                <div><dt>Source checked</dt><dd>{{ game.ai.checkedDate | dateReadable }}</dd></div>
+            </dl>
+        </div>
+        <a class="ai-disclosure__source" href="{{ game.ai.sourceUrl }}" rel="noopener nofollow">Read the creator's explanation <span aria-hidden="true">↗</span></a>
+    </section>
+    {% endif %}
+
+    <section class="surface rounded-2xl p-6 mb-10">
+        <h2 class="text-lg font-bold mb-4">Source &amp; Licence</h2>
+        <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <div>
+                <dt class="text-paper-45">Author / Project</dt>
+                <dd class="font-semibold mt-1">{{ game.sourceName }}</dd>
+            </div>
+            <div>
+                <dt class="text-paper-45">Licence</dt>
+                <dd class="font-semibold mt-1">{{ game.licence | licenceLabel }}</dd>
+            </div>
+            <div>
+                <dt class="text-paper-45">Released</dt>
+                <dd class="font-semibold mt-1">{{ game.releaseDate }}</dd>
+            </div>
+        </dl>
+        <p class="text-xs text-paper-45 mt-4">
+            {% if game | hostedPath %}Hosted on ArcadeWorld with permission from the site owner. No public reuse licence has been declared.{% else %}ArcadeWorld is a directory. We introduce games and link to their creators. All rights belong to its author.{% endif %}
+            Visit the <a href="{{ (game | hostedPath) or game.sourceUrl }}" rel="noopener nofollow" class="link-inline">{% if game | hostedPath %}game page{% else %}official site{% endif %}</a> to play.
+        </p>
+    </section>
+
+    {% if related.length %}
+    <section>
+        <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+            <h2 class="display-h2 text-2xl md:text-3xl">{{ 'More AI games' if game.ai else 'More ' + cat.name + ' Games' }}</h2>
+            {% if game.ai %}<a href="/ai-games/" class="link-inline text-sm">See the AI field guide</a>{% endif %}
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for game in related %}
+            {% include 'game-card.njk' %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+</div>
+
+{# ===================================================================
+   STICKY MOBILE CTA — fixed to the bottom of the viewport on small
+   screens only. Solves "scrolled past the button, can't find play".
+   Always one tap away. Hidden on lg+ where the hero CTA is enough.
+   =================================================================== #}
+<div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-ink-2/95 backdrop-blur-sm border-t border-[var(--hairline)] px-4 py-3 flex items-center justify-between gap-3">
+    <div class="min-w-0">
+        <p class="text-sm font-semibold truncate">{{ game.name }}</p>
+        <p class="text-xs text-paper-45 truncate">{{ game.sourceName }}</p>
+    </div>
+    {% set cta_size = 'sm' %}
+    {% include 'play-cta.njk' %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{# Play-click aggregate beacon (issue #5). Measurement-only; the outbound
+   link still works without JS. Loaded only on game detail pages. #}
+<script src="/js/play-click.js?v={{ asset_version }}" defer></script>
+{% endblock %}

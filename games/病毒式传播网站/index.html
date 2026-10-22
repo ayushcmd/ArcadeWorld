@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f5ef">
+    <title>Circle Club — Free Draw a Perfect Circle Game</title>
+    <meta name="description" content="Draw a perfect circle online in Circle Club. Get a score out of 100, try the daily challenge, and share your result. Free to play with no account or download.">
+    <link rel="canonical" href="https://arcadebloom.com/play/circle-club/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ArcadeBloom">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Circle Club — Free Draw a Perfect Circle Game">
+    <meta property="og:description" content="Draw a perfect circle online in Circle Club. Get a score out of 100, try the daily challenge, and share your result. Free to play with no account or download.">
+    <meta property="og:url" content="https://arcadebloom.com/play/circle-club/">
+    <meta property="og:image" content="https://arcadebloom.com/media/circle-club.png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="900">
+    <meta property="og:image:alt" content="Circle Club browser game with its drawing canvas and daily challenge controls">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Circle Club — Free Draw a Perfect Circle Game">
+    <meta name="twitter:description" content="Draw a perfect circle online in Circle Club. Get a score out of 100, try the daily challenge, and share your result. Free to play with no account or download.">
+    <meta name="twitter:image" content="https://arcadebloom.com/media/circle-club.png">
+    <meta name="twitter:image:alt" content="Circle Club drawing game on ArcadeBloom">
+    <link rel="icon" href="./favicon.svg">
+    <link rel="stylesheet" href="./style.css">
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            "@id": "https://arcadebloom.com/play/circle-club/#webpage",
+            "url": "https://arcadebloom.com/play/circle-club/",
+            "name": "Circle Club \u2014 Free Draw a Perfect Circle Game",
+            "description": "Draw a perfect circle online in Circle Club. Get a score out of 100, try the daily challenge, and share your result. Free to play with no account or download.",
+            "inLanguage": "en",
+            "mainEntity": {
+                "@id": "https://arcadebloom.com/play/circle-club/#game"
+            },
+            "isPartOf": {
+                "@id": "https://arcadebloom.com/#website"
+            }
+        },
+        {
+            "@type": "VideoGame",
+            "@id": "https://arcadebloom.com/play/circle-club/#game",
+            "name": "Circle Club",
+            "url": "https://arcadebloom.com/play/circle-club/",
+            "description": "Circle Club is a free browser drawing game. Draw once around the center dot to receive a score out of 100. Play Free draw or a daily target-size challenge with mouse, touch or keyboard.",
+            "genre": [
+                "Arcade",
+                "Drawing"
+            ],
+            "gamePlatform": "Web browser",
+            "operatingSystem": "Any operating system with a modern web browser",
+            "applicationCategory": "GameApplication",
+            "inLanguage": "en",
+            "isAccessibleForFree": true,
+            "playMode": "SinglePlayer",
+            "image": "https://arcadebloom.com/media/circle-club.png",
+            "mainEntityOfPage": {
+                "@id": "https://arcadebloom.com/play/circle-club/#webpage"
+            },
+            "subjectOf": {
+                "@type": "WebPage",
+                "url": "https://arcadebloom.com/game/circle-club/"
+            },
+            "publisher": {
+                "@id": "https://arcadebloom.com/#org"
+            }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://arcadebloom.com/#website",
+            "name": "ArcadeBloom",
+            "url": "https://arcadebloom.com/"
+        },
+        {
+            "@type": "Organization",
+            "@id": "https://arcadebloom.com/#org",
+            "name": "ArcadeBloom",
+            "url": "https://arcadebloom.com/"
+        }
+    ]
+}
+    </script>
+</head>
+<body>
+  <header class="header"><a class="brand" href="/" aria-label="Circle Club home"><span class="brand-mark">○</span> Circle Club</a><button id="help" class="text-button">How to play <span>↗</span></button></header>
+  <main>
+    <noscript><p class="script-note">Enable JavaScript to play Circle Club. You can read the instructions and scoring rules below without it.</p></noscript>
+    <section class="intro"><div class="eyebrow"><span></span> NO DOWNLOAD. JUST DRAW.</div><h1>Draw a perfect<br><span class="underline">circle.</span></h1><p>A free circle-drawing game. One stroke.<br>Get your score, then challenge a friend.</p><div class="intro-bottom"><span class="scribble">↳</span><span>Draw it. Score it. Try to beat it.<br><b>Think your friends can do better?</b></span></div></section>
+    <section class="play-section" aria-label="Circle drawing game">
+      <div class="mode-bar" role="group" aria-label="Game mode"><button class="mode active" data-mode="free" aria-pressed="true">Free draw</button><button class="mode" data-mode="daily" aria-pressed="false">Daily challenge <span>↗</span></button><span id="day-label">ONE STROKE</span></div>
+      <div class="game-board" id="board"><div class="board-top"><span id="board-label">THE CIRCLE TEST</span><span id="best-label">Best —</span></div><div id="challenge" class="challenge" hidden></div>
+        <canvas id="canvas" tabindex="0" aria-label="Draw a circle around the center with your finger or mouse. Keyboard: Enter to start, arrow keys to draw, Enter to finish, Escape to reset."></canvas>
+        <div class="board-hint" id="hint"><strong>Start anywhere</strong><span>Draw once around the center dot</span></div><div class="board-footer"><span id="board-status">Trust your hand.</span><span>↖ Hold · Draw · Release</span></div>
+      </div>
+      <div class="result" id="result" hidden aria-live="polite"><div><span class="result-label">YOUR ROUNDNESS</span><div class="score"><span id="score">0</span><small>/ 100</small></div></div><div class="result-copy"><h2 id="verdict"></h2><p id="result-detail"></p></div></div>
+      <div class="actions"><button id="retry" class="button secondary">↻ <span>Try again</span></button><button id="share" class="button primary">Copy link <span>↗</span></button></div>
+      <button id="poster" class="poster-button" hidden>↓ Save score image</button><p class="local-note">No account needed. Your records stay on this device.</p>
+    </section>
+    <section class="bottom-strip"><div><span class="step">01</span><p>Go freehand<span>No compass. Just confidence.</span></p></div><div><span class="step">02</span><p>Get your score<span>Rounder and closer wins.</span></p></div><div><span class="step">03</span><p>Pass it on<span>Copy a link. Challenge a friend.</span></p></div></section>
+    <section class="game-guide" aria-labelledby="about-circle-club">
+        <h2 id="about-circle-club">What is Circle Club?</h2>
+        <p>Circle Club is a free online circle-drawing game hosted on ArcadeBloom. Draw one continuous loop around the center dot and get a score from 0 to 100. Play with a mouse, touch screen or keyboard, without an account or download.</p>
+        <h2 id="how-to-play">How to draw a circle</h2>
+        <ol>
+            <li>Choose <strong>Free draw</strong> to practise, or <strong>Daily challenge</strong> to match the dotted target circle.</li>
+            <li>Press and hold on the canvas, then draw one loop around the center dot. Keep your distance from the dot steady and finish near your starting point.</li>
+            <li>Release to see your score. Select <strong>Try again</strong> for another attempt, <strong>Copy link</strong> to challenge a friend, or <strong>Save score image</strong> to download your result.</li>
+        </ol>
+        <p><strong>Keyboard controls:</strong> Tab to the canvas and press Enter to start. Draw with the arrow keys; hold Shift for smaller steps. Press Enter again to score, or Escape to reset.</p>
+        <h2 id="circle-club-questions">Circle Club questions</h2>
+        <h3>How is the circle score calculated?</h3>
+        <p>The score measures how evenly your line stays from the center, how closely the ends meet, how fully it goes around the dot and how much extra path you draw. Daily mode also checks your circle against the target size. Very short strokes, tiny circles, incomplete loops and repeated loops may be rejected. A score of 100 is the maximum, not a ranking against other players.</p>
+        <h3>How does the daily circle challenge work?</h3>
+        <p>Daily challenge uses a target radius determined by the UTC calendar date. Everyone selecting the same date gets the same target size. The date is selected when you open the game or switch modes; reopen the mode after midnight UTC for the new day. A shared daily challenge link keeps its original date.</p>
+        <h3>Can I play on my phone?</h3>
+        <p>Yes. Draw with your finger on a touch screen or use a mouse on a computer. Keyboard controls are also available. The game needs JavaScript to draw and calculate scores.</p>
+        <h3>Where are my scores saved?</h3>
+        <p>Your latest thirty scores are saved in this browser on this device. There is no account or cloud score history. Clearing site data removes saved records. If browser storage is unavailable, you can still play. See <a href="https://arcadebloom.com/privacy/">ArcadeBloom’s privacy information</a>.</p>
+        <h3>What does a challenge link share?</h3>
+        <p>After a valid drawing, Copy link includes your score and game mode in the URL, plus the date for a daily challenge. Your friend draws their own circle to try to beat that score. These URL scores are editable and are not verified leaderboard results.</p>
+        <p class="guide-links"><a href="https://arcadebloom.com/game/circle-club/">Circle Club details and licence</a> · <a href="https://arcadebloom.com/category/arcade/">Discover more arcade games</a></p>
+    </section>
+  </main>
+  <footer><span>A little circle. A lot of fun.</span><span>MADE FOR YOUR “ONE MORE TRY”</span><button id="records" class="text-button">My records ↗</button></footer>
+  <dialog id="dialog"><button id="close-dialog" class="close" aria-label="Close">×</button><div id="dialog-content"></div></dialog><div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="./app.js"></script>
+</body></html>

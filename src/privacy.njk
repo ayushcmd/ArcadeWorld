@@ -1,0 +1,60 @@
+---
+permalink: /privacy/
+title: Privacy Policy
+description: How ArcadeWorld handles data. We run a directory — we do not require an account to browse.
+---
+{% extends 'base.njk' %}
+
+{% block adsense %}{% endblock %}
+{# No AdSense on this page (issue #15). #}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <nav class="text-sm text-paper-60 mb-8" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-paper">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-paper">Privacy</span>
+    </nav>
+
+    <h1 class="text-4xl font-extrabold tracking-tight mb-6">Privacy Policy</h1>
+    <p class="text-paper-60 text-sm mb-8">Last updated: October 2026</p>
+
+    <div class="text-paper-70 leading-relaxed space-y-6">
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">1. No account required</h2>
+            <p>ArcadeWorld is a directory. You can browse, search, and read every page without creating an account or providing any personal information.</p>
+        </section>
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">2. Analytics</h2>
+            <p>We use privacy-respecting analytics to understand aggregate traffic (which pages are read, roughly where visitors come from). We do not build individual user profiles or sell data.</p>
+        </section>
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">3. Cookies and local storage</h2>
+            <p>Circle Club stores your latest thirty scores in this browser’s local storage. Pulse Lock and Echo Vault each store the latest twenty completed scores and course seeds locally. These records are not sent to a server. Challenge links include the score and course or mode you choose to share. The games offer a Clear local records button; clearing browser site data also removes saved records.</p>
+            <p>Any cookies are limited to essential functionality (such as remembering your search query) and aggregate analytics. We do not use cookies for cross-site tracking or ad targeting.</p>
+        </section>
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">4. When you leave ArcadeWorld</h2>
+            <p>The "Play" links send you to third-party sites. Those sites have their own privacy policies which govern what they collect once you arrive. We have no control over and take no responsibility for their practices.</p>
+        </section>
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">5. How we count Play clicks (aggregate only)</h2>
+            <p>When you click an outbound Play button, ArcadeWorld records a single anonymous count so we can tell which games are actually being played. The only data sent is: the game's slug, a coarse referral bucket (for example "google" or "direct"), and a coarse device bucket (desktop / tablet / mobile). This is combined into a daily total per game.</p>
+            <p>We do <strong>not</strong> record your IP address, any cookie or account identifier, your full referrer URL, your user agent, or any cross-site identifier. The click is sent the moment you press Play and nothing about you personally is kept.</p>
+            <p>This first-party click count is separate from any advertising (see below). It is anonymous aggregate measurement and does not track you across sites.</p>
+        </section>
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">6. Advertising (Google AdSense)</h2>
+            <p>Content pages may show two labelled advertisements in the empty margins on the left and right of wide desktop screens. ArcadeWorld does not place advertisements inside the main page content, and these side advertisements are not created on tablets or phones. About, legal, contact, search, archive and submission pages remain advertising-free. AdSense is a third-party service with its own data practices — it may use cookies and similar technologies to serve ads based on your prior visits to this and other sites. This is <strong>not</strong> covered by the anonymous Play-click measurement described above.</p>
+            <p>In regions where Google requires it (the EEA, UK, and Switzerland), ads load through a Google-certified consent management platform and you are asked for consent before advertising cookies are set. You can decline ad personalization at any time via Google's <a href="https://www.google.com/settings/ads" rel="noopener nofollow" class="underline hover:text-paper">Ads Settings</a>.</p>
+            <p>The anonymous Play-click count (section 5) and AdSense data (this section) are separate. One does not make the other anonymous.</p>
+        </section>
+        <section>
+            <h2 class="text-xl font-bold mb-2 text-paper">7. Contact</h2>
+            <p>Questions about privacy? See the <a href="/contact/" class="underline hover:text-paper">contact page</a>.</p>
+        </section>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+const AD_WIDTH = 160;
+const GAP = 28;
+const EDGE = 12;
+const CLIENT = 'ca-pub-1115845392526625';
+const SLOTS = {
+    left: '8427263236',
+    right: '3039205182',
+};
+const main = document.querySelector('main');
+const content = main?.id === 'main' ? main.firstElementChild : main;
+function placement() {
+    if (!content || window.innerWidth < 1024) return null;
+    const rect = content.getBoundingClientRect();
+    const style = getComputedStyle(content);
+    const left = rect.left + parseFloat(style.paddingLeft);
+    const right = rect.right - parseFloat(style.paddingRight);
+    const width = document.documentElement.clientWidth;
+    if (left < AD_WIDTH + GAP + EDGE || width - right < AD_WIDTH + GAP + EDGE) return null;
+    return { left: left - GAP - AD_WIDTH, right: right + GAP };
+}
+let libraryPromise;
+
+function createRail(side) {
+    const rail = document.createElement('aside');
+    rail.className = `game-side-ad game-side-ad--${side}`;
+    rail.setAttribute('aria-label', `${side === 'left' ? 'Left' : 'Right'} advertisement`);
+
+    const label = document.createElement('p');
+    label.className = 'game-side-ad__label';
+    label.textContent = 'Advertisement';
+
+    const ad = document.createElement('ins');
+    ad.className = 'adsbygoogle';
+    ad.style.display = 'inline-block';
+    ad.style.width = '160px';
+    ad.style.height = '600px';
+    ad.dataset.adClient = CLIENT;
+    ad.dataset.adSlot = SLOTS[side];
+
+    const statusObserver = new MutationObserver(() => {
+        if (/^unfill/.test(ad.dataset.adStatus || '')) rail.hidden = true;
+        if (ad.dataset.adStatus === 'filled') rail.hidden = false;
+    });
+    statusObserver.observe(ad, { attributes: true, attributeFilter: ['data-ad-status'] });
+
+    rail.append(label, ad);
+    document.body.append(rail);
+    return ad;
+}
+
+function loadLibrary() {
+    if (libraryPromise) return libraryPromise;
+    libraryPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CLIENT}`;
+        script.addEventListener('load', resolve, { once: true });
+        script.addEventListener('error', reject, { once: true });
+        document.head.append(script);
+    });
+    return libraryPromise;
+}
+
+function requestAds(ads) {
+    for (const ad of ads) {
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (_) {
+            ad.dataset.adStatus = 'unavailable';
+        }
+    }
+}
+
+function updateSideAds() {
+    const position = placement();
+    if (!position) {
+        document.querySelectorAll('.game-side-ad').forEach(rail => rail.remove());
+        return;
+    }
+    document.querySelectorAll('.game-side-ad').forEach(rail => {
+        rail.style.left = `${position[rail.classList.contains('game-side-ad--left') ? 'left' : 'right']}px`;
+    });
+    if (document.querySelector('.game-side-ad')) return;
+    const ads = [createRail('left'), createRail('right')];
+    ads.forEach((ad, index) => { ad.parentElement.style.left = `${position[index === 0 ? 'left' : 'right']}px`; });
+    loadLibrary().then(() => requestAds(ads.filter(ad => ad.isConnected && placement()))).catch(() => {
+        ads.forEach(ad => { ad.dataset.adStatus = 'unavailable'; });
+    });
+}
+
+updateSideAds();
+window.addEventListener('resize', updateSideAds);
+if (content) new ResizeObserver(updateSideAds).observe(content);
