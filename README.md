@@ -10,23 +10,16 @@
   <a href="https://github.com/ayushcmd/ArcadeWorld" target="_blank" rel="noopener noreferrer">📁 Repository</a>
 </p>
 
----
-
-## 📸 Website preview
-
-<div align="center">
-  <img src="docs/screenshots/home-discovery/after-desktop.png" alt="ArcadeWorld homepage" width="800"/>
-</div>
 
 ---
 
-## 🎮 About ArcadeWorld
+##  About ArcadeWorld
 
 ArcadeWorld is a curated, **outbound‑link** directory of indie browser games, game‑jam entries, experimental demos, and AI‑enhanced titles. Each listing presents a concise description, proper attribution, and a direct link to the game’s official host. The platform never hosts or modifies third‑party games; it merely connects players with the creators.
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - **Rich catalogue** – Over 2,000 games organized into six top‑level categories (Puzzle, Action, Arcade, Strategy, Racing & Sports, Simulation).
 - **AI labeling** – Games that use AI in gameplay or were built with AI assistance are clearly marked with disclosures.
@@ -37,7 +30,7 @@ ArcadeWorld is a curated, **outbound‑link** directory of indie browser games, 
 
 ---
 
-## 🔍 Explore the Platform
+##  Explore the Platform
 
 - **Home** – <https://arcadeworld.pages.dev/>
 - **Featured games** – <https://arcadeworld.pages.dev/featured/>
@@ -49,7 +42,7 @@ ArcadeWorld is a curated, **outbound‑link** directory of indie browser games, 
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 | Technology | Role |
 |------------|------|
@@ -61,7 +54,7 @@ ArcadeWorld is a curated, **outbound‑link** directory of indie browser games, 
 
 ---
 
-## 📁 Project Architecture
+##  Project Architecture
 
 ```text
 ArcadeWorld/
@@ -83,7 +76,7 @@ ArcadeWorld/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -128,7 +121,7 @@ npm test                       # Playwright smoke & challenge‑game suite
 
 ---
 
-## 📚 Game Catalogue & Data Pipeline
+##  Game Catalogue & Data Pipeline
 
 - The master catalogue resides in `src/_data/games.js`.
 - Each entry follows the strict schema defined in the file (id, slug, name, category, tagline, about, howToPlay, keyFeatures, screenshots, sourceName, sourceUrl, licence, tags, addedDate, releaseDate, featured, plus optional `ai.*` fields for AI games).
@@ -136,7 +129,7 @@ npm test                       # Playwright smoke & challenge‑game suite
 
 ---
 
-## 📦 Deployment
+##  Deployment
 
 ArcadeWorld is hosted on **Cloudflare Pages**. The CI workflow (`.github/workflows/ci.yml`) performs:
 
@@ -149,7 +142,7 @@ The live site is available at **https://arcadeworld.pages.dev**.
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions!
 
